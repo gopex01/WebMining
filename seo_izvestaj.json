@@ -1,0 +1,44 @@
+{
+    "url_skeniranja": "https://www.mozzartsport.com/",
+    "tehnicki_tagovi": {
+        "title_tag": {
+            "sadrzaj": "Sportske Vesti | Mozzart Sport",
+            "duzina": 30,
+            "status": "OK"
+        },
+        "slike_statistika": {
+            "ukupno_slika": 127,
+            "slike_bez_alt_opisa": 26
+        },
+        "tehnicke_barijere": {
+            "koristi_frame": false,
+            "koristi_iframe": false
+        }
+    },
+    "analiza_teksta": {
+        "ukupan_broj_reci": 799,
+        "ispunjava_minimum_100_reci": true,
+        "detektovane_kljucne_reci": [
+            {
+                "rec": "fudbal",
+                "frekvencija": 85
+            },
+            {
+                "rec": "srbija",
+                "frekvencija": 19
+            },
+            {
+                "rec": "mozzart",
+                "frekvencija": 16
+            },
+            {
+                "rec": "zvezda",
+                "frekvencija": 13
+            },
+            {
+                "rec": "prelazzi",
+                "frekvencija": 13
+            }
+        ]
+    }
+}
