@@ -31,7 +31,6 @@ def start_analyze(url):
     raw_html = response.text
     soup = BeautifulSoup(raw_html, "html.parser")
 
-    # 1. DETEKCIJA JS / CSR BARIJERE
     is_spa_detected = False
     spa_framework = "None"
     if any(tag in raw_html for tag in ["ng-version", "<app-root>", "data-critters-container", "<ds-root>"]):
@@ -44,7 +43,6 @@ def start_analyze(url):
         is_spa_detected = True
         spa_framework = "Vue.js"
 
-    # 2. TEKST IZ BODY DELA
     soup_copy = BeautifulSoup(raw_html, "html.parser")
     for noti_tag in soup_copy(["script", "style", "noscript", "svg"]):
         noti_tag.decompose()
@@ -53,36 +51,29 @@ def start_analyze(url):
     full_text = body_element.get_text(separator=" ") if body_element else ""
     plain_text = " ".join(full_text.split())
 
-    # 3. ADVANCED SEO ANALYSIS
     title_tag = soup.find("title")
     title_text = title_tag.text.strip() if title_tag else ""
     title_length = len(title_text)
 
-    # H1
     h1_tags = [h1.get_text().strip() for h1 in soup.find_all("h1") if h1.get_text().strip()]
     
-    # Meta Description & Robots
     meta_desc = soup.find("meta", attrs={"name": "description"})
     meta_desc_text = meta_desc.get("content", "").strip() if meta_desc else ""
     
     meta_robots = soup.find("meta", attrs={"name": "robots"})
     meta_robots_text = meta_robots.get("content", "").strip() if meta_robots else "Index, Follow (Default)"
 
-    # Canonical Link
     canonical_tag = soup.find("link", attrs={"rel": "canonical"})
     has_canonical = bool(canonical_tag)
 
-    # Slike
     images = soup.find_all("img")
     total_images = len(images)
     images_without_alt = sum(1 for s in images if not s.get("alt") or s.get("alt").strip() == "")
     alt_score_percentage = 100 if total_images == 0 else int(((total_images - images_without_alt) / total_images) * 100)
 
-    # Frame & iFrame
     frame = bool(soup.find("frame"))
     iframe = bool(soup.find("iframe"))
 
-    # Tokenizacija
     all_words = re.findall(r'\b[a-zA-ZšđčćžŠĐČĆŽ]{3,}\b', plain_text.lower())
     important_words = [word for word in all_words if word not in STOP_WORDS]
     frequency = {}
@@ -91,7 +82,6 @@ def start_analyze(url):
     top_key_words = sorted(frequency.items(), key=lambda x: x[1], reverse=True)[:5]
     words_num = len(all_words)
 
-    # --- LIGHTHOUSE-STYLE SCORE CALCULATION (0 - 100) ---
     score = 100
     penalties = []
 

@@ -58,7 +58,6 @@ def display_results(result):
     output = f"=== LIGHTHOUSE-STYLE SEO AUDIT REPORT ===\n"
     output += f"Target URL: {result['url_skeniranja']}\n\n"
 
-    # OVERALL SCORE
     output += f"📊 OVERALL SEO SCORE: {score} / 100\n"
     if score >= 80:
         output += "Status: PASSED (Good Crawlability)\n"
@@ -68,21 +67,18 @@ def display_results(result):
         output += "Status: CRITICAL (Severe Indexing Barriers)\n"
     output += "-" * 50 + "\n\n"
 
-    # PENALTIES
     if result["penalties"]:
         output += "⚠️ DETECTED ISSUES & PENALTIES:\n"
         for pen in result["penalties"]:
             output += f"   ❌ {pen}\n"
         output += "\n"
 
-    # TITLE & META
     output += f"📌 TITLE & META TAGS:\n"
     output += f"   - Title: {tags['title_tag']['sadrzaj'] or 'NOT FOUND'} ({tags['title_tag']['duzina']} chars)\n"
     output += f"   - Meta Description: {tags['meta_description']['sadrzaj'] or 'NOT FOUND'}\n"
     output += f"   - Meta Robots: {tags['meta_robots']}\n"
     output += f"   - Canonical Tag: {'YES' if tags['has_canonical'] else 'NO'}\n\n"
 
-    # HEADINGS
     output += f"🏷️ HEADINGS STRUCTURE:\n"
     output += f"   - H1 Headings Count: {tags['h1_headings']['ukupno_h1']}\n"
     if tags["h1_headings"]["sadrzaj"]:
@@ -90,13 +86,11 @@ def display_results(result):
             output += f"     {idx}. {h1}\n"
     output += "\n"
 
-    # IMAGES
     output += f"🖼️ IMAGES AUDIT:\n"
     output += f"   - Total Images: {tags['slike_statistika']['ukupno_slika']}\n"
     output += f"   - Missing ALT Tags: {tags['slike_statistika']['slike_bez_alt_opisa']}\n"
     output += f"   - Alt Attribute Score: {tags['slike_statistika']['optimizovanost_procenat']}\n\n"
 
-    # CRAWLING BARRIERS
     output += f"🛑 CRAWLING BARRIERS:\n"
     output += f"   - <frame> Detected: {'YES' if tags['tehnicke_barijere']['koristi_frame'] else 'NO'}\n"
     output += f"   - <iframe> Detected: {'YES' if tags['tehnicke_barijere']['koristi_iframe'] else 'NO'}\n"
@@ -105,7 +99,6 @@ def display_results(result):
     framework = tags["tehnicke_barijere"]["detected_framework"]
     output += f"   - Client-Side JS Rendering (CSR): {'YES (' + framework + ')' if js_rendering else 'NO'}\n\n"
 
-    # CONTENT ANALYSIS
     output += f"📝 CONTENT VOLUME & KEYWORDS:\n"
     output += f"   - Word Count (Body Text): {content['ukupan_broj_reci']}\n"
     output += f"   - Meets 100-Word Threshold: {'YES' if content['ispunjava_minimum_100_reci'] else 'NO'}\n"
@@ -118,13 +111,11 @@ def display_results(result):
 
     visual_text.insert(tk.END, output)
 
-    # RAW JSON TAB
     json_text.delete(1.0, tk.END)
     json_formatted = json.dumps(result, indent=4, ensure_ascii=False)
     json_text.insert(tk.END, json_formatted)
 
 
-# GUI SETUP
 window = tk.Tk()
 window.title("Mini-Spider | SEO Lighthouse Auditor")
 window.geometry("700x720")
